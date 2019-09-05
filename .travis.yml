@@ -1,0 +1,26 @@
+language: python
+python:
+    - "3.7"
+
+before_install:
+    curl -o c2x.tar.gz https://www.c2x.org.uk/c2x_2.30.tgz
+    curl -o spglib.zip https://codeload.github.com/atztogo/spglib/zip/master
+    tar xf c2x.tar.gz
+    unzip spglib.zip
+    cd spglib-master/src
+    cp $HOME/c2x_2.30/Makefile.spglib Makefile
+    make
+    cp spglib.h libsymspg.a $HOME/c2x_2.30
+    cd $HOME/c2x_2.30
+    cp $TRAVIS_BUILD_DIR/Makefile.c2x Makefile
+    make shared
+    export C2X_DIR=$HOME/c2x_2.30
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$C2X_DIR
+
+install:
+    pip install cython --install-option="--no-cython-compile"
+    pip install -r requirements.txt
+    pip install -e .
+
+script:
+    py.test

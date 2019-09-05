@@ -10,6 +10,9 @@ cdef class UnitCell:
         self._unit_cell.vol = volume
         print('Created unit cell with {} volume'.format(self._unit_cell.vol))
 
+    # def __repr__(self):
+        # print('UnitCell: vol = {} A^3'.format(self.volume))
+
     @property
     def volume(self):
         return self._unit_cell.vol

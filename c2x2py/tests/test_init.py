@@ -5,34 +5,16 @@ import sys
 import contextlib
 import io
 
-def trace(func, *args, **kwargs):
-    print('Entering {}'.format(func.__name__))
-    results = func(*args, **kwargs)
-    print('Exiting {}'.format(func.__name__))
-    return results
-
 class testInit(unittest.TestCase):
     def test_import(self):
-        try:
-            import c2x2py.api
-        except (ImportError, ModuleNotFoundError):
-            print('/'.join(__file__.split('/')[:-1]) + '/../')
-            sys.path.append('/'.join(__file__.split('/')[:-1]) + '/..')
-            import c2x2py.api
-
+        import c2x2py.api
         f = io.StringIO()
         with contextlib.redirect_stdout(f):
             c2x2py.api.wrappaaah()
         self.assertEqual(f.getvalue(), 'aaah\n')
 
     def test_print_unit_cell(self):
-        try:
-            import c2x2py.api
-        except (ImportError, ModuleNotFoundError):
-            print('/'.join(__file__.split('/')[:-1]) + '/../')
-            sys.path.append('/'.join(__file__.split('/')[:-1]) + '/..')
-            import c2x2py.api
-
+        import c2x2py.api
         print('setting up cell')
         cell = c2x2py.api.UnitCell(volume=10)
         cell.volume = 10
@@ -40,12 +22,7 @@ class testInit(unittest.TestCase):
         c2x2py.api.print_cell(cell)
 
     def test_dist(self):
-        try:
-            import c2x2py.api
-        except (ImportError, ModuleNotFoundError):
-            print('/'.join(__file__.split('/')[:-1]) + '/../')
-            sys.path.append('/'.join(__file__.split('/')[:-1]) + '/../')
-            import c2x2py.api
+        import c2x2py.api
 
         a = 0.5
         b = 0.6
@@ -56,6 +33,14 @@ class testInit(unittest.TestCase):
         a = -0.1
         b = 0.1
         self.assertEqual(c2x2py.api.c2x_dist(a, b), 0.2)
+
+    def test_wrapper_python(self):
+        from c2x2py.some_python import UnitCells
+        blah = UnitCells(20)
+        self.assertEqual(len(blah.cells), 20)
+        self.assertTrue(all(cell.volume == 0 for cell in blah.cells))
+        blah.cells[5].volume = 20
+        self.assertEqual(blah.cells[5].volume, 20)
 
 if __name__ == '__main__':
     unittest.main()

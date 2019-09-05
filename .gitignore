@@ -4,3 +4,5 @@ __pycache__
 *.a
 *.c
 build
+.pytest*
+*egg-info
