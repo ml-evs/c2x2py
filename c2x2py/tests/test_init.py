@@ -16,7 +16,7 @@ class testInit(unittest.TestCase):
     def test_print_unit_cell(self):
         import c2x2py.api
         print('setting up cell')
-        cell = c2x2py.api.UnitCell(volume=10)
+        cell = c2x2py.api.UnitCell([[10, 0, 0], [0, 10, 0], [0, 0, 10]])
         cell.volume = 10
         print('set up cell')
         c2x2py.api.print_cell(cell)

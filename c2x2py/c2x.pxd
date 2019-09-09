@@ -4,7 +4,7 @@ cdef extern from "c2xsf.h":
 
     cdef struct unit_cell:
         double vol
-        # double basis[3]
+        double *basis
         # double recip[3][3]
 
     ctypedef struct atom
@@ -18,6 +18,7 @@ cdef extern from "c2xsf.h":
     ctypedef struct es
 
     double dist(double a, double b)
+    double volume(double basis[3][3])
     # double fft3d(double *c, int *ngptar, int dir)
 
 
